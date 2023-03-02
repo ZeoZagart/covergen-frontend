@@ -1,23 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
+import Home from './components/pages/Home';
+import Profile from './components/pages/Profile';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import Login from './components/pages/Login';
+import Header from './components/pages/Header';
+import Register from "./components/pages/Register";
 
 function App() {
+  const isLoggedIn = !!localStorage.getItem("auth-token");
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+          <BrowserRouter>
+              <Header />
+              <Routes>
+                  <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+                  <Route path='/home' element={<Home/>} />
+                  <Route path='/profile' element={<Profile/>} />
+                  <Route path="/login" element={ <Login /> } />
+                  <Route path="/register" element={ <Register /> } />
+              </Routes>
+          </BrowserRouter>
       </header>
     </div>
   );
